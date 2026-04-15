@@ -25,13 +25,19 @@
 	},
 	"dependencies": {
 		"@hookform/resolvers": "^5.2.2",
+		"axios": "^1.15.0",
+		"lucide-react": "^1.8.0",
+		"m3-ripple": "^1.1.3",
+		"moment-timezone": "^0.6.1",
 		"ajv": "^8",
 		"mime": "^4.1.0",
+		"lodash": "^4.18.1",
 		"react-hook-form": "^7.72.1",
 		"use-local-storage-state": "^19.5.0",
 		"zod": "^4.3.6"
 	},
 	"devDependencies": {
+		"@types/lodash": "^4.17.24",
 		"typescript": "~6.0.2",
 		"vite": "^8.0.4",
 		"@vitejs/plugin-react": "^6.0.1",
