@@ -1,0 +1,159 @@
+@import "tailwindcss";
+@import "./theme.css";
+@import "@heroui/styles";
+
+@layer base {
+	:root {
+		color-scheme: light;
+
+		/* == Common Variables == */
+
+		--white: oklch(100% 0 0);
+		--black: oklch(0% 0 0);
+		--snow: oklch(0.9911 0 0);
+		--eclipse: oklch(0.21 0.006 255);
+
+		--spacing: 0.25rem;
+
+		--border-width: 1px;
+		--field-border-width: 0px;
+		--disabled-opacity: 0.5;
+
+		--ring-offset-width: 2px;
+
+		--cursor-interactive: pointer;
+		--cursor-disabled: not-allowed;
+
+		--radius: 0.5rem;
+		--field-radius: calc(var(--radius) * 1.5);
+
+		/* == Light Theme == */
+
+		--background: oklch(0.98 0.002 255);
+		--foreground: oklch(0.22 0.01 255);
+
+		--surface: var(--white);
+		--surface-foreground: var(--foreground);
+
+		--overlay: var(--white);
+		--overlay-foreground: var(--foreground);
+
+		--muted: oklch(0.6 0.02 255);
+		--muted-foreground: oklch(0.4 0.015 255);
+
+		--scrollbar: oklch(0.87 0.01 255);
+
+		--default: oklch(0.95 0.002 255);
+		--default-foreground: var(--foreground);
+
+		/* 🔵 Accent (your brand) */
+		--accent: oklch(0.42 0.13 255);
+		--accent-foreground: oklch(0.98 0 0);
+
+		/* Optional soft accent */
+		--accent-soft: oklch(0.9 0.04 255);
+
+		/* Form Fields */
+		--field-background: var(--white);
+		--field-foreground: var(--foreground);
+		--field-placeholder: var(--muted);
+		--field-border: transparent;
+
+		/* Status */
+		--success: oklch(0.7 0.14 160);
+		--success-foreground: var(--eclipse);
+
+		--warning: oklch(0.78 0.16 85);
+		--warning-foreground: var(--eclipse);
+
+		--danger: oklch(0.62 0.22 25);
+		--danger-foreground: var(--snow);
+
+		/* Components */
+		--segment: var(--white);
+		--segment-foreground: var(--foreground);
+
+		/* Misc */
+		--border: oklch(0.9 0.003 255);
+		--separator: oklch(0.9 0.003 255);
+		--focus: var(--accent);
+		--link: var(--accent);
+
+		/* Shadows */
+		--surface-shadow:
+			0 2px 4px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.06),
+			0 0 1px rgba(0, 0, 0, 0.06);
+
+		--overlay-shadow: 0 4px 16px rgba(0, 64, 136, 0.08), 0 8px 24px rgba(0, 64, 136, 0.1);
+
+		--field-shadow:
+			0 2px 4px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.06),
+			0 0 1px rgba(0, 0, 0, 0.06);
+
+		--skeleton-animation: shimmer;
+	}
+
+	.dark,
+	[data-theme="dark"] {
+		color-scheme: dark;
+
+		/* == Dark Theme == */
+
+		--background: oklch(0.13 0.01 255);
+		--foreground: oklch(0.95 0.01 255);
+
+		--surface: oklch(0.18 0.01 255);
+		--surface-foreground: var(--foreground);
+
+		--overlay: oklch(0.22 0.01 255);
+		--overlay-foreground: var(--foreground);
+
+		--muted: oklch(0.72 0.02 255);
+		--muted-foreground: oklch(0.78 0.015 255);
+
+		--scrollbar: oklch(0.72 0.02 255);
+
+		--default: oklch(0.28 0.01 255);
+		--default-foreground: var(--foreground);
+
+		/* 🔵 Accent (lifted for dark mode) */
+		--accent: oklch(0.55 0.14 255);
+		--accent-foreground: oklch(0.1 0 0);
+
+		--accent-soft: oklch(0.3 0.05 255);
+
+		/* Form */
+		--field-background: var(--default);
+		--field-foreground: var(--foreground);
+
+		/* Status */
+		--success: oklch(0.72 0.14 160);
+		--success-foreground: var(--eclipse);
+
+		--warning: oklch(0.82 0.14 85);
+		--warning-foreground: var(--eclipse);
+
+		--danger: oklch(0.6 0.2 25);
+		--danger-foreground: var(--snow);
+
+		/* Components */
+		--segment: oklch(0.4 0.01 255);
+		--segment-foreground: var(--foreground);
+
+		/* Misc */
+		--border: oklch(0.26 0.01 255);
+		--separator: oklch(0.26 0.01 255);
+		--focus: var(--accent);
+		--link: var(--accent);
+
+		/* Shadows disabled for dark */
+		--surface-shadow: none;
+		--overlay-shadow: none;
+		--field-shadow: none;
+	}
+
+	.label {
+		/* Base styling */
+		@apply text-zinc-600;
+	}
+}
