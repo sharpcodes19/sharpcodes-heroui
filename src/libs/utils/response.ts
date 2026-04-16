@@ -45,14 +45,14 @@ export const toFailedAxiosResponse = <T> (error: unknown): Res<T> => {
 				message: data.Message,
 				ok: data.IsSuccess
 			}
+
     return error.response?.data
   }
 
   return {
 		ok: false,
     errors: {},
-    // @ts-expect-error message
-    message: error?.message || error
+    message: error instanceof Error ? error.message : String(error)
 	}
 }
 
