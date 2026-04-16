@@ -1,7 +1,7 @@
 {
 	"name": "sharpcodes-heroui",
 	"private": false,
-	"version": "1.0.6",
+	"version": "1.0.7",
 	"type": "module",
 	"main": "dist/index.js",
 	"module": "dist/index.js",
@@ -35,12 +35,13 @@
 		"react-haiku": "^2.4.1",
 		"react-hook-form": "^7.72.1",
 		"use-local-storage-state": "^19.5.0",
+		"xlsx": "^0.18.5",
 		"zod": "^4.3.6"
 	},
 	"devDependencies": {
 		"@eslint/js": "^9.39.4",
 		"@types/lodash": "^4.17.24",
-		"@types/node": "^24.12.2",
+		"@types/node": "^25.6.0",
 		"@types/react": "^19.2.14",
 		"@types/react-dom": "^19.2.3",
 		"@vitejs/plugin-react": "^6.0.1",
