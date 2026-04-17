@@ -8,7 +8,7 @@ import {
 	SpinnerProps,
 	Tooltip,
 	TooltipContentProps,
-	TooltipProps,
+	TooltipProps
 } from "@heroui/react"
 import { Ripple, RippleProps } from "m3-ripple"
 import { PropsWithChildren, ReactNode } from "react"

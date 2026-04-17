@@ -30,12 +30,13 @@ import {
 	TagGroupListProps,
 	TagGroupProps,
 	TagRootProps,
-	useFilter,
+	useFilter
 } from "@heroui/react"
 import { FormField, TFormField } from "./field"
 
 // prettier-ignore
 type TAutoCompleteFormField <D extends FieldValues, T extends FieldValues, K extends Path<T>> = {
+  isMultiSelection?: boolean
   items: Array<D>
   idKey: Path<D>
   nameKey: Path<D>
@@ -44,7 +45,7 @@ type TAutoCompleteFormField <D extends FieldValues, T extends FieldValues, K ext
 } & TFormField<T, K>
   & WithProperties<{
     base?: {
-      autoComplete?: AutocompleteProps<D>
+      autoComplete?: Omit<AutocompleteProps<D>, "selectionMode">
       trigger?: AutocompleteTriggerProps
       value?: AutocompleteValueProps
     }
@@ -75,10 +76,10 @@ type TAutoCompleteFormField <D extends FieldValues, T extends FieldValues, K ext
   }>
 
 // prettier-ignore
-export const AutoCompleteFormField = <D extends FieldValues, T extends FieldValues, K extends Path<T>> ({ emptyMessage, items, idKey, nameKey, properties, label, ...form }: TAutoCompleteFormField<D, T, K>) => {
+export const AutoCompleteFormField = <D extends FieldValues, T extends FieldValues, K extends Path<T>> ({ isMultiSelection, emptyMessage, items, idKey, nameKey, properties, label, ...form }: TAutoCompleteFormField<D, T, K>) => {
   const { contains } = useFilter({ sensitivity: "base" })
 
-  const isSingle = properties?.base?.autoComplete?.selectionMode === "single"
+  // const isSingle = properties?.base?.autoComplete?.selectionMode === "single"
 
   return <FormField { ...form }>
     {
@@ -87,17 +88,17 @@ export const AutoCompleteFormField = <D extends FieldValues, T extends FieldValu
         // @ts-expect-error keys
         return <Autocomplete
           isInvalid={fieldState.invalid}
-          selectionMode="multiple"
+          selectionMode={isMultiSelection ? "multiple" : "single"}
           variant="secondary"
           value={ 
-            isSingle ? value :
+            !isMultiSelection ? value :
             !value ? undefined : _.isArray (value) ? value : [ value ]
           }
           { ...properties?.base?.autoComplete }
           { ...field }
           onChange={
             (keys) => {
-              if(isSingle)
+              if(!isMultiSelection)
                 return onChange(keys)
 
               if(!_.isArray(keys)) 
@@ -146,7 +147,7 @@ export const AutoCompleteFormField = <D extends FieldValues, T extends FieldValu
                           return <Tag key={current.id} id={current.id} { ...properties?.tag?.item } 
                             className={
                               cn(
-                                isSingle ? "[&_.close-button]:hidden" : undefined,
+                                !isMultiSelection ? "[&_.close-button]:hidden" : undefined,
                                 "bg-transparent!",
                                 properties?.tag?.item?.className
                               )

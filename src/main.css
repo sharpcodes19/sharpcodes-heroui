@@ -1,7 +1,3 @@
-@import "tailwindcss";
-@import "./theme.css";
-@import "@heroui/styles";
-
 @layer base {
 	:root {
 		color-scheme: light;
