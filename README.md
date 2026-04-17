@@ -14,18 +14,9 @@ Install the required peer dependencies in your app:
 npm install react react-dom @heroui/react @tanstack/react-query @tanstack/react-table react-hook-form @hookform/resolvers zod axios lodash moment-timezone lucide-react react-haiku
 ```
 
-## Styles
-
-Import the package stylesheet once in your app entry:
-
-```ts
-import "sharpcodes-heroui/main.css"
-```
-
 ## Quick Start
 
 ```tsx
-import "sharpcodes-heroui/main.css"
 import { RippledButton, Modal } from "sharpcodes-heroui"
 
 export function Example() {
@@ -48,7 +39,6 @@ export function Example() {
 ## React Hook Form Example
 
 ```tsx
-import "sharpcodes-heroui/main.css"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
@@ -135,7 +125,6 @@ export function SampleForm() {
 ## Package Entry Points
 
 - `sharpcodes-heroui`
-- `sharpcodes-heroui/main.css`
 
 ## Build
 
@@ -147,7 +136,6 @@ Build output is written to `dist/` and includes:
 
 - `dist/index.js`
 - `dist/index.d.ts`
-- `dist/main.css`
 
 ## Requirements
 

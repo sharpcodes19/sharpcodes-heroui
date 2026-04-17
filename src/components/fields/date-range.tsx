@@ -144,7 +144,7 @@ export const DateRange = ({ onChange, value, properties, label }: TDateRange) =>
       </DateField.Suffix>
     </DateField.Group>
     {/* <ErrorMessage properties={{ error: properties?.error }}>{}</ErrorMessage> */}
-    <DateRangePicker.Popover isNonModal placement="bottom end" { ...properties?.calendar?.popover }>
+    <DateRangePicker.Popover placement="bottom end" { ...properties?.calendar?.popover }>
       <RangeCalendar aria-label="calendar period" { ...properties?.calendar?.calendar}>
         <RangeCalendar.Header { ...properties?.calendar?.header }>
           <RangeCalendar.YearPickerTrigger { ...properties?.calendar?.yearPicker?.tigger }>

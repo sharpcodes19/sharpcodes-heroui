@@ -144,12 +144,16 @@ export const AutoCompleteFormField = <D extends FieldValues, T extends FieldValu
                             name: _.get(item, nameKey)
                           }
 
-                          return <Tag key={current.id} id={current.id} { ...properties?.tag?.item } 
+                          return <Tag 
+                            key={current.id} 
+                            size="sm"
+                            id={current.id} 
+                            { ...properties?.tag?.item }
                             className={
                               cn(
-                                !isMultiSelection ? "[&_.close-button]:hidden" : undefined,
                                 "bg-transparent!",
-                                properties?.tag?.item?.className
+                                properties?.tag?.item?.className,
+                                !isMultiSelection ? "[&_.close-button]:hidden" : undefined,
                               )
                             }
                             textValue={current.name}
@@ -166,7 +170,7 @@ export const AutoCompleteFormField = <D extends FieldValues, T extends FieldValu
             </Autocomplete.Value>
             <Autocomplete.Indicator />
           </Autocomplete.Trigger>
-          <Autocomplete.Popover isNonModal placement="bottom left" { ...properties?.popover?.popover }>
+          <Autocomplete.Popover placement="bottom left" { ...properties?.popover?.popover }>
             <Autocomplete.Filter filter={contains} { ...properties?.popover?.filter }>
               <SearchField autoFocus fullWidth aria-label="autocomplete search" name="search" variant="secondary" { ...properties?.search?.field }>
                 <SearchField.Group { ...properties?.search?.group }>

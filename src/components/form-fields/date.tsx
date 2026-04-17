@@ -114,7 +114,7 @@ export const DateFormField = <T extends FieldValues, K extends Path<T>> ({ label
             </DateField.Suffix>
           </DateField.Group>
           <FormFieldErrorMessage fieldState={fieldState} properties={{ error: properties?.error }} />
-          <DatePicker.Popover isNonModal placement="bottom end" { ...properties?.calendar?.popover } className={cn("min-w-64", properties?.calendar?.popover?.className) }>
+          <DatePicker.Popover placement="bottom end" { ...properties?.calendar?.popover } className={cn("min-w-64", properties?.calendar?.popover?.className) }>
             <Calendar aria-label="calendar period" { ...properties?.calendar?.calendar}>
               <Calendar.Header { ...properties?.calendar?.header }>
                 <Calendar.YearPickerTrigger { ...properties?.calendar?.yearPicker?.tigger }>

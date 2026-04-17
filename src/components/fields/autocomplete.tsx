@@ -29,7 +29,7 @@ import {
 	TagGroupListProps,
 	TagGroupProps,
 	TagRootProps,
-	useFilter,
+	useFilter
 } from "@heroui/react"
 
 // prettier-ignore
@@ -148,7 +148,7 @@ export const AutoComplete = <T extends FieldValues, K extends Path<T>> ({ emptyM
       </HeroUIAutoComplete.Value>
       <HeroUIAutoComplete.Indicator />
     </HeroUIAutoComplete.Trigger>
-    <HeroUIAutoComplete.Popover isNonModal placement="bottom left" { ...properties?.popover?.popover }>
+    <HeroUIAutoComplete.Popover placement="bottom left" { ...properties?.popover?.popover }>
       <HeroUIAutoComplete.Filter filter={contains} { ...properties?.popover?.filter }>
         <SearchField autoFocus fullWidth aria-label="autocomplete search" name="search" variant="secondary" { ...properties?.search?.field }>
           <SearchField.Group { ...properties?.search?.group }>

@@ -146,7 +146,7 @@ export const DateRangeFormField = <T extends FieldValues, K extends Path<T>> ({ 
             </DateField.Suffix>
           </DateField.Group>
           <FormFieldErrorMessage fieldState={fieldState} properties={{ error: properties?.error }} />
-          <DateRangePicker.Popover isNonModal placement="bottom end" { ...properties?.calendar?.popover }>
+          <DateRangePicker.Popover placement="bottom end" { ...properties?.calendar?.popover }>
             <RangeCalendar aria-label="calendar period" { ...properties?.calendar?.calendar}>
               <RangeCalendar.Header { ...properties?.calendar?.header }>
                 <RangeCalendar.YearPickerTrigger { ...properties?.calendar?.yearPicker?.tigger }>

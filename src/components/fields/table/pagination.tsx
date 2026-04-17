@@ -2,6 +2,7 @@
 
 import {
 	cn,
+	NumberFieldProps,
 	Pagination,
 	PaginationContentProps,
 	PaginationItemProps,
@@ -44,6 +45,7 @@ export type TDataTablePagination = {
   locale?: string
 } & WithProperties<{
   pagination?: PaginationProps
+  paginationNumberInput?: Omit<NumberFieldProps, "value" | "onChange">
   paginationSummary?: PaginationSummaryProps
   paginationItem?: PaginationItemProps
   paginationContent?: PaginationContentProps
@@ -101,6 +103,8 @@ export const DataTablePagination = ({ renderPaginationSummary, gotoPage, locale,
         field: {
           maxValue: count.max,
           minValue: 1,
+          ...properties?.paginationNumberInput,
+          className: cn("max-w-36", properties?.paginationNumberInput?.className)
         },
         label: { className: "text-zinc-500 text-xs" }
       }}
