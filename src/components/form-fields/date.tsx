@@ -32,6 +32,7 @@ import {
 } from "@heroui/react/date-input-group"
 import { FormFieldErrorMessage } from "./error"
 import { toMoment } from "../../libs/utils/date"
+import _ from "lodash"
 
 // prettier-ignore
 type TDateFormField <T extends FieldValues, K extends Path<T>> = {
@@ -80,7 +81,7 @@ export const DateFormField = <T extends FieldValues, K extends Path<T>> ({ label
           hideTimeZone 
           isInvalid={fieldState.invalid}
           aria-label={label || "date picker"} 
-          value={!value ? undefined : parseAbsoluteToLocal(value.toISOString())}
+          value={_.isDate(value) ? parseAbsoluteToLocal(value.toISOString()) : undefined}
           shouldCloseOnSelect={!showTimePicker}
           { ...properties?.picker }
           { ...field }
