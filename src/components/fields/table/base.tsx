@@ -46,10 +46,10 @@ import { FieldValues, Path } from "react-hook-form"
 export type TDataTable <T extends FieldValues, K extends Path<T>> = {
   storageBaseName?: string
   name: string,
-  rows?: {
+  selection?: {
+    onSelectRows?: (selectedKeys: Array<T[K]>) => void
+    selectedRows?: Array<T[K]>
     disabledRowKeys?: Array<T[K]>
-    selectedRowKeys?: Array<T[K]>
-    onSelectRowKeys?: (selectedKeys: Array<T[K]>) => void
   }
   rowIdKey: K
   columns: Array<{ key: Path<T>, title: string, hide?: boolean }>
@@ -77,22 +77,23 @@ type TSortableColumnHeader = {
 }
 
 // prettier-ignore
-export const DataTable = <T extends FieldValues, K extends Path<T>> ({ name, rows, columns, items, properties, rowIdKey, renderCell, storageBaseName, ...pagination }: TDataTable<T, K>) => {
-  const enableRowSelection = Boolean(rows?.onSelectRowKeys)
-  const disabledSet = new Set((rows?.disabledRowKeys ?? []).map(String))
-
+export const DataTable = <T extends FieldValues, K extends Path<T>> ({ name, selection, columns, items, properties, rowIdKey, renderCell, storageBaseName, ...pagination }: TDataTable<T, K>) => {
+  const enableRowSelection = Boolean(selection)
   const [ columnWidths, setColumnWidths ] = useLocalStorageState([ storageBaseName || "DataTable", name ].join("::"), {
     defaultValue: Object.fromEntries(columns.map(({ key }) => [ key, null ]))
   })
   const [sorting, setSorting] = useState<SortingState>([])
-  const [rowSelection, setRowSelection] = useState<RowSelectionState>(() =>
+  
+  // Initialize rowSelection from selectedRows prop
+  const initialRowSelection = selection?.selectedRows ? 
     Object.fromEntries(
-    (rows?.selectedRowKeys ?? [])
-      .map(String)
-      .filter((key) => !disabledSet.has(key))
-      .map((key) => [key, true])
-    )
-  )
+      selection.selectedRows
+        .map((key) => items.findIndex((item) => _.get(item, rowIdKey) === key))
+        .filter((index) => index !== -1)
+        .map((index) => [index, true])
+    ) : {}
+  
+  const [rowSelection, setRowSelection] = useState<RowSelectionState>(initialRowSelection)
 
   const table = useReactTable({
     getFilteredRowModel: getFilteredRowModel(),
@@ -100,7 +101,7 @@ export const DataTable = <T extends FieldValues, K extends Path<T>> ({ name, row
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
     columns: createColumns({ columns }),
-    enableRowSelection: (row) => Boolean(rows) && !disabledSet.has(row.id),
+    enableRowSelection,
     data: items,
     initialState: {
       pagination: { pageSize: pagination.count.value }
@@ -108,7 +109,7 @@ export const DataTable = <T extends FieldValues, K extends Path<T>> ({ name, row
     state: {
       sorting, 
       rowSelection,
-      columnVisibility: Object.fromEntries(columns.map((col) => [ col.key, !col.hide ])),
+      columnVisibility: Object.fromEntries(columns.map((col) => [ col.key, !col.hide ]))
     },
     columnResizeMode: "onEnd",
     onSortingChange: setSorting,
@@ -117,40 +118,34 @@ export const DataTable = <T extends FieldValues, K extends Path<T>> ({ name, row
   
   const sortDescriptor = toSortDescriptor(sorting)
 
+  // Sync external selectedRows changes
   useEffect(() => {
-    if(!rows) return
+    if (!selection?.selectedRows) return
+
+    const newRowSelection = Object.fromEntries(
+      selection.selectedRows
+        .map((key) => items.findIndex((item) => _.get(item, rowIdKey) === key))
+        .filter((index) => index !== -1)
+        .map((index) => [index, true])
+    )
+    setRowSelection(newRowSelection)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selection?.selectedRows, items])
+
+  useEffect(() => {
+    if(!selection) return
 
     const arr = z.coerce.number().array().safeParse(Object.keys(rowSelection))
     if(arr.success) {
-      const selectedIds = Object.keys(rowSelection)
-      // const keys = arr.data
-      //   .map((index) => _.get(items[index], rowIdKey) ?? null)
-      //   .filter((item) => item !== null)
-      const keys = items
-        .filter(item => {
-          const id = String(_.get(item, rowIdKey))
-          return selectedIds.includes(id) && !disabledSet.has(id)
-        })
-        .map(item => _.get(item, rowIdKey))
+      const keys = arr.data
+        .map((index) => _.get(items[index], rowIdKey) ?? null)
+        .filter((item) => item !== null)
+        .filter((item) => !selection.disabledRowKeys?.includes(item as T[K]))
       // @ts-expect-error keys
-      rows.onSelectRowKeys(keys)
+      selection.onSelectRows?.(keys)
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [rowSelection, items, rowIdKey])
-
-  useEffect(() => {
-  if (!rows?.selectedRowKeys) return
-
-  setRowSelection(
-    Object.fromEntries(
-      rows.selectedRowKeys
-        .map(String)
-        .filter((key) => !disabledSet.has(key))
-        .map((key) => [key, true])
-    )
-  )
-// eslint-disable-next-line react-hooks/exhaustive-deps
-}, [disabledSet])
 
   return <Virtualizer
     layout={TableLayout}
@@ -189,7 +184,7 @@ export const DataTable = <T extends FieldValues, K extends Path<T>> ({ name, row
               {
                 !enableRowSelection ? null :
                 <Table.Column maxWidth={20}>
-                  <InditerminateCheckbox
+                  <InditerminateCheckbox 
                     id="all"
                     properties={{
                       checkbox: {
@@ -248,7 +243,7 @@ export const DataTable = <T extends FieldValues, K extends Path<T>> ({ name, row
                           onChange={row.getToggleSelectedHandler()}
                           isSelected={row.getIsSelected()}
                           isIndeterminate={row.getIsSomeSelected()}
-                          isDisabled={disabledSet.has(row.id)}
+                          isDisabled={selection?.disabledRowKeys?.includes(_.get(row.original, rowIdKey) as T[K]) ?? false}
                           properties={{
                             checkbox: {
                               className: "w-fit"
@@ -354,7 +349,6 @@ const InditerminateCheckbox = ({ label, properties, ...rest }: TInditerminateChe
     aria-label={`Select row ${label || "" }`.trim()}
     slot="selection"
     variant="secondary"
-    isDisabled={false}
     { ...properties?.checkbox }
     { ...rest }
   >
