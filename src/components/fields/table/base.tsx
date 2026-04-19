@@ -47,6 +47,7 @@ export type TDataTable <T extends FieldValues, K extends Path<T>> = {
   storageBaseName?: string
   name: string,
   rows?: {
+    disabledRowKeys?: Array<T[K]>
     selectedRowKeys?: Array<T[K]>
     onSelectRowKeys?: (selectedKeys: Array<T[K]>) => void
   }
@@ -78,13 +79,18 @@ type TSortableColumnHeader = {
 // prettier-ignore
 export const DataTable = <T extends FieldValues, K extends Path<T>> ({ name, rows, columns, items, properties, rowIdKey, renderCell, storageBaseName, ...pagination }: TDataTable<T, K>) => {
   const enableRowSelection = Boolean(rows?.onSelectRowKeys)
+  const disabledSet = new Set((rows?.disabledRowKeys ?? []).map(String))
+
   const [ columnWidths, setColumnWidths ] = useLocalStorageState([ storageBaseName || "DataTable", name ].join("::"), {
     defaultValue: Object.fromEntries(columns.map(({ key }) => [ key, null ]))
   })
   const [sorting, setSorting] = useState<SortingState>([])
   const [rowSelection, setRowSelection] = useState<RowSelectionState>(() =>
     Object.fromEntries(
-      (rows?.selectedRowKeys ?? []).map((key) => [String(key), true])
+    (rows?.selectedRowKeys ?? [])
+      .map(String)
+      .filter((key) => !disabledSet.has(key))
+      .map((key) => [key, true])
     )
   )
 
@@ -94,7 +100,7 @@ export const DataTable = <T extends FieldValues, K extends Path<T>> ({ name, row
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
     columns: createColumns({ columns }),
-    enableRowSelection,
+    enableRowSelection: (row) => Boolean(rows) && !disabledSet.has(row.id),
     data: items,
     initialState: {
       pagination: { pageSize: pagination.count.value }
@@ -102,7 +108,7 @@ export const DataTable = <T extends FieldValues, K extends Path<T>> ({ name, row
     state: {
       sorting, 
       rowSelection,
-      columnVisibility: Object.fromEntries(columns.map((col) => [ col.key, !col.hide ]))
+      columnVisibility: Object.fromEntries(columns.map((col) => [ col.key, !col.hide ])),
     },
     columnResizeMode: "onEnd",
     onSortingChange: setSorting,
@@ -112,7 +118,7 @@ export const DataTable = <T extends FieldValues, K extends Path<T>> ({ name, row
   const sortDescriptor = toSortDescriptor(sorting)
 
   useEffect(() => {
-    if(!rows?.onSelectRowKeys) return
+    if(!rows) return
 
     const arr = z.coerce.number().array().safeParse(Object.keys(rowSelection))
     if(arr.success) {
