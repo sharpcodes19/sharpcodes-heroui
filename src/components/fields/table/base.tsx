@@ -168,7 +168,7 @@ export const DataTable = <T extends FieldValues, K extends Path<T>> ({ name, row
               {
                 !enableRowSelection ? null :
                 <Table.Column maxWidth={20}>
-                  <InditerminateCheckbox 
+                  <InditerminateCheckbox
                     id="all"
                     properties={{
                       checkbox: {
@@ -227,6 +227,7 @@ export const DataTable = <T extends FieldValues, K extends Path<T>> ({ name, row
                           onChange={row.getToggleSelectedHandler()}
                           isSelected={row.getIsSelected()}
                           isIndeterminate={row.getIsSomeSelected()}
+                          isDisabled={disabledSet.has(row.id)}
                           properties={{
                             checkbox: {
                               className: "w-fit"
