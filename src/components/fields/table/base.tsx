@@ -149,7 +149,8 @@ export const DataTable = <T extends FieldValues, K extends Path<T>> ({ name, row
         .map((key) => [key, true])
     )
   )
-}, [rows?.selectedRowKeys, disabledSet])
+// eslint-disable-next-line react-hooks/exhaustive-deps
+}, [disabledSet])
 
   return <Virtualizer
     layout={TableLayout}
