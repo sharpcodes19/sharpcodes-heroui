@@ -120,7 +120,7 @@ export const DataTable = <T extends FieldValues, K extends Path<T>> ({ name, row
         .map((index) => _.get(items[index], rowIdKey) ?? null)
         .filter((item) => item !== null)
       // @ts-expect-error keys
-      onSelectRows(keys)
+      rows.onSelectRowKeys(keys)
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [rowSelection, items, rowIdKey])
