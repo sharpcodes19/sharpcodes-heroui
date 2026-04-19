@@ -46,7 +46,10 @@ import { FieldValues, Path } from "react-hook-form"
 export type TDataTable <T extends FieldValues, K extends Path<T>> = {
   storageBaseName?: string
   name: string,
-  onSelectRows?: (selectedKeys: Array<T[K]>) => void
+  rows?: {
+    selectedRowKeys?: Array<T[K]>
+    onSelectRowKeys?: (selectedKeys: Array<T[K]>) => void
+  }
   rowIdKey: K
   columns: Array<{ key: Path<T>, title: string, hide?: boolean }>
   renderCell?: (consume: { row: T, rowIndex: number }) => Partial<Record<Path<T>, ReactNode>>
@@ -73,13 +76,17 @@ type TSortableColumnHeader = {
 }
 
 // prettier-ignore
-export const DataTable = <T extends FieldValues, K extends Path<T>> ({ name, onSelectRows, columns, items, properties, rowIdKey, renderCell, storageBaseName, ...pagination }: TDataTable<T, K>) => {
-  const enableRowSelection = Boolean(onSelectRows)
+export const DataTable = <T extends FieldValues, K extends Path<T>> ({ name, rows, columns, items, properties, rowIdKey, renderCell, storageBaseName, ...pagination }: TDataTable<T, K>) => {
+  const enableRowSelection = Boolean(rows?.onSelectRowKeys)
   const [ columnWidths, setColumnWidths ] = useLocalStorageState([ storageBaseName || "DataTable", name ].join("::"), {
     defaultValue: Object.fromEntries(columns.map(({ key }) => [ key, null ]))
   })
   const [sorting, setSorting] = useState<SortingState>([])
-  const [rowSelection, setRowSelection] = useState<RowSelectionState>({})
+  const [rowSelection, setRowSelection] = useState<RowSelectionState>(() =>
+    Object.fromEntries(
+      (rows?.selectedRowKeys ?? []).map((key) => [String(key), true])
+    )
+  )
 
   const table = useReactTable({
     getFilteredRowModel: getFilteredRowModel(),
@@ -105,7 +112,7 @@ export const DataTable = <T extends FieldValues, K extends Path<T>> ({ name, onS
   const sortDescriptor = toSortDescriptor(sorting)
 
   useEffect(() => {
-    if(!onSelectRows) return
+    if(!rows?.onSelectRowKeys) return
 
     const arr = z.coerce.number().array().safeParse(Object.keys(rowSelection))
     if(arr.success) {
