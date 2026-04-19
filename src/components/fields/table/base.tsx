@@ -122,14 +122,34 @@ export const DataTable = <T extends FieldValues, K extends Path<T>> ({ name, row
 
     const arr = z.coerce.number().array().safeParse(Object.keys(rowSelection))
     if(arr.success) {
-      const keys = arr.data
-        .map((index) => _.get(items[index], rowIdKey) ?? null)
-        .filter((item) => item !== null)
+      const selectedIds = Object.keys(rowSelection)
+      // const keys = arr.data
+      //   .map((index) => _.get(items[index], rowIdKey) ?? null)
+      //   .filter((item) => item !== null)
+      const keys = items
+        .filter(item => {
+          const id = String(_.get(item, rowIdKey))
+          return selectedIds.includes(id) && !disabledSet.has(id)
+        })
+        .map(item => _.get(item, rowIdKey))
       // @ts-expect-error keys
       rows.onSelectRowKeys(keys)
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [rowSelection, items, rowIdKey])
+
+  useEffect(() => {
+  if (!rows?.selectedRowKeys) return
+
+  setRowSelection(
+    Object.fromEntries(
+      rows.selectedRowKeys
+        .map(String)
+        .filter((key) => !disabledSet.has(key))
+        .map((key) => [key, true])
+    )
+  )
+}, [rows?.selectedRowKeys, disabledSet])
 
   return <Virtualizer
     layout={TableLayout}
