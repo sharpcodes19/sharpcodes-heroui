@@ -33,6 +33,7 @@ import {
 	useFilter
 } from "@heroui/react"
 import { FormField, TFormField } from "./field"
+import { WithProperties } from "../../types/properties"
 
 // prettier-ignore
 type TAutoCompleteFormField <D extends FieldValues, T extends FieldValues, K extends Path<T>> = {
@@ -107,6 +108,7 @@ export const AutoCompleteFormField = <D extends FieldValues, T extends FieldValu
               return onChange(keys)
             }
           }
+          className={cn(!isMultiSelection ? "[&_.close-button]:hidden" : "", properties?.base?.autoComplete?.className)}
         >
           <Label { ...properties?.label }>{ label }</Label>
           <Autocomplete.Trigger { ...properties?.base?.trigger } className={cn("py-0 items-center", properties?.base?.trigger?.className)}>

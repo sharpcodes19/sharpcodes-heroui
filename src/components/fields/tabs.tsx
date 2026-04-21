@@ -13,6 +13,7 @@ import {
 	TabsProps
 } from "@heroui/react"
 import { ReactNode, useMemo } from "react"
+import { WithProperties } from "../../types/properties"
 
 // prettier-ignore
 type TTabs<T extends string, K extends T = T> = {

@@ -16,6 +16,7 @@ import {
 import { ReactNode, useMemo } from "react"
 import { NumericInput } from "../number"
 import { Ripple } from "m3-ripple"
+import { WithProperties } from "../../../types/properties"
 
 type TContent = number | "..."
 

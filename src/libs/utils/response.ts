@@ -6,6 +6,7 @@ import { treeifyError } from "zod/v4/core"
 import { Key, toast } from "@heroui/react"
 import { createElement } from "react"
 import { CheckIcon, OctagonXIcon } from "lucide-react"
+import { Res } from "../../types/common"
 
 // prettier-ignore
 export const toFailedZodResponse = <T extends FieldValues> (error: z.ZodError<T>): Res<null> => {

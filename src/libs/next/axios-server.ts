@@ -2,6 +2,7 @@
 
 import _ from "lodash"
 import axios, { CreateAxiosDefaults } from "axios"
+import { PaginatedResponse, Res } from "../../types/common"
 
 // prettier-ignore
 export const server_createApiInstanceAsync = async <T extends never> (accessToken: string, config?: Partial<CreateAxiosDefaults<T>>) => {

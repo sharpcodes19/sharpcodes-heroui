@@ -14,6 +14,7 @@ import {
 import { createElement, ReactNode } from "react"
 import { RippledButton } from "../button"
 import { toMoment } from "../../../libs/utils/date"
+import { DataTableActionKeys } from "../../../types/common"
 
 export { DataTable, type TDataTable } from "./base"
 export { RenderEmptyDataTable } from "./empty"

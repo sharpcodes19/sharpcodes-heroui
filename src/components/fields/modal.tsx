@@ -16,10 +16,11 @@ import {
 	ModalIconProps,
 	ModalProps,
 	Separator,
-	SeparatorProps,
+	SeparatorProps
 } from "@heroui/react"
 import { LucideIcon } from "lucide-react"
 import { createElement, PropsWithChildren, ReactNode } from "react"
+import { WithProperties } from "../../types/properties"
 
 // prettier-ignore
 type TModal = {

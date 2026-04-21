@@ -41,6 +41,7 @@ import { TableLayoutProps } from "@react-stately/layout"
 import { ChevronUp } from "lucide-react"
 import { PropsWithChildren, ReactNode, useEffect, useState } from "react"
 import { FieldValues, Path } from "react-hook-form"
+import { WithProperties } from "../../../types/properties"
 
 // prettier-ignore
 export type TDataTable <T extends FieldValues, K extends Path<T>> = {

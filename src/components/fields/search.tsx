@@ -9,10 +9,11 @@ import {
 	SearchFieldGroupProps,
 	SearchFieldInputProps,
 	SearchFieldProps,
-	SearchFieldSearchIconProps,
+	SearchFieldSearchIconProps
 } from "@heroui/react"
 import { useEffect, useState } from "react"
 import { useDebounce } from "react-haiku"
+import { WithProperties } from "../../types/properties"
 
 type SearchInputField = {
 	delay?: number

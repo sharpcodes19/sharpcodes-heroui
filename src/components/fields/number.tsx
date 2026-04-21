@@ -9,8 +9,9 @@ import {
 	NumberFieldGroupProps,
 	NumberFieldIncrementButtonProps,
 	NumberFieldInputProps,
-	NumberFieldProps,
+	NumberFieldProps
 } from "@heroui/react"
+import { WithProperties } from "../../types/properties"
 
 type TNumericInput = {
 	label?: string

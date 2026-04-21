@@ -12,6 +12,7 @@ import {
 } from "@heroui/react"
 import { Ripple, RippleProps } from "m3-ripple"
 import { PropsWithChildren, ReactNode } from "react"
+import { WithProperties } from "../../types/properties"
 
 type TRippledButton = {
 	tooltipContent?: ReactNode

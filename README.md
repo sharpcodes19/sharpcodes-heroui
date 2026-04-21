@@ -42,7 +42,7 @@ export function Example() {
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
-import { InputFormField, DateFormField } from "sharpcodes-heroui"
+import { InputFormField, DateFormField, toDefaultValues } from "sharpcodes-heroui"
 
 const schema = z.object({
 	name: z.string().min(1, "Name is required"),
@@ -54,10 +54,7 @@ type FormValues = z.infer<typeof schema>
 export function SampleForm() {
 	const { control, handleSubmit } = useForm<FormValues>({
 		resolver: zodResolver(schema),
-		defaultValues: {
-			name: "",
-			birthDate: null
-		}
+		defaultValues: toDefaultValues(schema)
 	})
 
 	return (

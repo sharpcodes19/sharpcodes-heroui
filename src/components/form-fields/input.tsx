@@ -19,11 +19,12 @@ import {
 	NumberFieldInputProps,
 	NumberFieldProps,
 	TextField,
-	TextFieldProps,
+	TextFieldProps
 } from "@heroui/react"
 import { FormField, TFormField } from "./field"
 import { FormFieldErrorMessage } from "./error"
 import { ReactNode } from "react"
+import { WithProperties } from "../../types/properties"
 
 // prettier-ignore
 type TInputFormField <T extends FieldValues, K extends Path<T>> = {

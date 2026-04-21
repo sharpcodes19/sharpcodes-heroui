@@ -2,6 +2,7 @@
 
 import { FieldError, FieldErrorProps } from "@heroui/react"
 import { ControllerFieldState } from "react-hook-form"
+import { WithProperties } from "../../types/properties"
 
 type TFormFieldErrorMessage = {
 	fieldState: ControllerFieldState

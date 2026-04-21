@@ -33,6 +33,7 @@ import {
 import { FormFieldErrorMessage } from "./error"
 import { toMoment } from "../../libs/utils/date"
 import _ from "lodash"
+import { WithProperties } from "../../types/properties"
 
 // prettier-ignore
 type TDateFormField <T extends FieldValues, K extends Path<T>> = {

@@ -29,8 +29,10 @@ import {
 	TagGroupListProps,
 	TagGroupProps,
 	TagRootProps,
-	useFilter
+	useFilter,
+	cn
 } from "@heroui/react"
+import { WithProperties } from "../../types/properties"
 
 // prettier-ignore
 type TAutoComplete <T extends FieldValues, K extends Path<T>> = {
@@ -101,6 +103,7 @@ export const AutoComplete = <T extends FieldValues, K extends Path<T>> ({ emptyM
         return onChange(keys)
       }
     }
+    className={cn(isSingle ? "[&_.close-button]:hidden" : "", properties?.base?.autoComplete?.className)}
   >
     <Label { ...properties?.label }>{ label }</Label>
     <HeroUIAutoComplete.Trigger { ...properties?.base?.trigger }>

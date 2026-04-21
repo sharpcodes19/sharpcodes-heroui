@@ -30,6 +30,7 @@ import {
 	DateInputGroupSuffixProps
 } from "@heroui/react/date-input-group"
 import { toMoment } from "../../libs/utils/date"
+import { WithProperties } from "../../types/properties"
 
 export type DateRangeItem = {
 	from: Date
